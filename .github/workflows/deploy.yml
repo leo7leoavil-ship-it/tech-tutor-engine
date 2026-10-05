@@ -1,0 +1,38 @@
+name: Deploy to Hugging Face Spaces
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: hf-spaces-deploy
+  cancel-in-progress: true
+
+jobs:
+  sync-space:
+    name: Sync repository to Hugging Face Space
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout (with Git LFS for ChromaDB)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_USERNAME: ${{ secrets.HF_USERNAME }}
+          HF_SPACE: ${{ secrets.HF_SPACE }}
+        run: |
+          set -euo pipefail
+          if [ -z "${HF_TOKEN}" ] || [ -z "${HF_USERNAME}" ] || [ -z "${HF_SPACE}" ]; then
+            echo "Set repository secrets HF_TOKEN, HF_USERNAME, and HF_SPACE."
+            exit 1
+          fi
+          git lfs install --local
+          git remote add space "https://huggingface.co/spaces/${HF_USERNAME}/${HF_SPACE}"
+          git push "https://${HF_USERNAME}:${HF_TOKEN}@huggingface.co/spaces/${HF_USERNAME}/${HF_SPACE}" HEAD:main --force

@@ -1,0 +1,2 @@
+# Track the persisted ChromaDB corpus with Git LFS when it exceeds ~100MB.
+data/technical_corpus_db/** filter=lfs diff=lfs merge=lfs -text

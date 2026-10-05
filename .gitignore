@@ -1,0 +1,55 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets — never commit live keys
+.env
+.env.local
+*.pem
+
+# Test / tooling
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# ASR scratch dumps from local experiments (do not ignore the vector store)
+tests/artifacts/
+*.webm
+*.mp3
+*.wav
+!tests/fixtures/**
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hugging Face / local model caches (weights are pulled at runtime)
+.cache/
+huggingface/
+*.bin
+*.pt
+*.onnx
+
+# NOTE: do NOT ignore data/technical_corpus_db — the pre-built ChromaDB
+# must ship with the Hugging Face Spaces image. If the directory exceeds
+# 100MB, track it with Git LFS (see .gitattributes).
